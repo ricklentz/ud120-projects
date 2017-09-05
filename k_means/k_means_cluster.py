@@ -8,7 +8,7 @@
 
 
 import pickle
-import numpy
+import numpy as np
 import matplotlib.pyplot as plt
 import sys
 sys.path.append("../tools/")
@@ -54,16 +54,35 @@ data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
 
+
 ### in the "clustering with 3 features" part of the mini-project,
 ### you'll want to change this line to 
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, the line below assumes 2 features)
-for f1, f2 in finance_features:
-    plt.scatter( f1, f2 )
-plt.show()
+#for f1, f2 in finance_features:
+#    plt.scatter( f1, f2 )
+#plt.show()
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
+from sklearn.cluster import KMeans
+features_list = ["poi", feature_1, feature_2]
+data2 = featureFormat(data_dict, features_list )
+
+### print the max and min of the exercised_stock_options
+#minval = np.min(data2.T[2][np.nonzero(data2.T[2])])
+#maxval = np.max(data2.T[2][np.nonzero(data2.T[2])])
+#print('min exercised_stock_options ' + str(minval) + ' max exercised_stock_options ' + str(maxval) )
+minval = np.min(data2.T[1][np.nonzero(data2.T[1])])
+maxval = np.max(data2.T[1][np.nonzero(data2.T[1])])
+print('min salary ' + str(minval) + ' max salary ' + str(maxval) )
+
+exit()
+
+poi, finance_features = targetFeatureSplit( data2 )
+pred = KMeans(n_clusters=2).fit_predict( finance_features )
+Draw(pred, finance_features, poi, name="clusters_before_scaling.pdf", f1_name=feature_1, f2_name=feature_2)
+
 
 
 
